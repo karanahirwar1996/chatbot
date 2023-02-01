@@ -6,7 +6,7 @@ import os
 nltk.download('words')
 nltk.download('punkt')
 
-pip install psycopg2
+#pip install psycopg2
 import psycopg2
 
 def create_conn():
