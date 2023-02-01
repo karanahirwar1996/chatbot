@@ -11,6 +11,6 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql://<postgres>:<KARAN1996>@db:5432/<school>
+      DATABASE_URL: postgresql://postgres:KARAN1996@db:5432/school
     depends_on:
       - db
