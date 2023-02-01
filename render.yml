@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: <KARAN1996>
+      POSTGRES_DB: <school>
+      POSTGRES_USER: <postgres>
+  web:
+    build: .
+    command: python chatbot.py
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://<postgres>:<KARAN1996>@db:5432/<school>
+    depends_on:
+      - db
