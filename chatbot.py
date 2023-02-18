@@ -1,13 +1,10 @@
-def chatbot():
-    print("Hello, I'm a chatbot. How can I help you today?")
-    while True:
-        user_input = input("You: ")
-        if user_input == "hi" or user_input == "hello":
-            print("Chatbot: Hello there!")
-        elif user_input == "bye":
-            print("Chatbot: Bye! Have a great day.")
-            break
-        else:
-            print("Chatbot: " + random.choice(["Interesting!", "Okay.", "I see.", "Okay, I understand."]))
+from flask import Flask, request
 
-chatbot()
+app = Flask(__name__)
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    data = request.get_json()
+    message = data['message']
+    response = f"Hello, {message}!"
+    return {'response': response}
