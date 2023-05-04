@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9]
+        python-version: [3.9]
 
     steps:
     - name: Checkout code
@@ -25,6 +25,9 @@ jobs:
         conda activate base
         conda env update -n chatbot --file environment.yml
         conda activate chatbot
+        conda info --envs
+
     - name: Run Python script
       run: |
         python StockTracker.py
+      shell: bash
