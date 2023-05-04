@@ -28,7 +28,6 @@ jobs:
         conda create -q -n chatbot python=$python-version
         conda activate chatbot
         conda install -q pandas gspread oauth2client
-
     - name: Run Python script
       run: |
         conda activate chatbot
