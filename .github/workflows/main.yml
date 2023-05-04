@@ -25,9 +25,8 @@ jobs:
         source ~/.bashrc
         conda config --set always_yes yes --set changeps1 no
         conda update -q conda
-        conda create -q -n chatbot python=$python-version
-        conda activate chatbot
-        conda install -q pandas gspread oauth2client
+        conda env create --file environment.yml
+
     - name: Run Python script
       run: |
         conda activate chatbot
