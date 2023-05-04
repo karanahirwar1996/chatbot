@@ -1,49 +1,35 @@
-name: Chatbot Workflow
+name: Python Package using Anaconda
 
 on:
   push:
-    branches: [main]
-
-env:
-  # Customize the name of the conda environment
-  CONDA_ENV: chatbot
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        python-version: [3.9]
+        python-version: [3.8, 3.9]
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-
-    - name: Install conda
+    - name: Set up Miniconda
       run: |
-        wget -qO- https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh | bash -u -b
-        echo ". $HOME/miniconda3/etc/profile.d/conda.sh" >> $GITHUB_ENV
-        source $HOME/miniconda3/etc/profile.d/conda.sh
+        wget -qO- https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh > ~/miniconda.sh
+        bash ~/miniconda.sh -b -p $HOME/miniconda
+        echo ". $HOME/miniconda/etc/profile.d/conda.sh" >> ~/.bashrc
+        source ~/.bashrc
         conda config --set always_yes yes --set changeps1 no
         conda update -q conda
-        conda info -a
-
-    - name: Create conda environment
-      run: conda env create -n ${{ env.CONDA_ENV }} --file environment.yml python=${{ matrix.python-version }}
-
-    - name: Activate conda environment
-      run: conda activate ${{ env.CONDA_ENV }}
-
-    - name: Install dependencies
-      run: |
-        conda install -c conda-forge pandas gspread oauth2client
+        conda create -q -n chatbot python=$python-version
+        conda activate chatbot
+        conda install -q pandas gspread oauth2client
 
     - name: Run Python script
-      run: python StockTracker.py
+      run: |
+        conda activate chatbot
+        python StockTracker.py
