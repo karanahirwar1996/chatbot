@@ -22,12 +22,16 @@ jobs:
         wget -qO- https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh > ~/miniconda.sh
         bash ~/miniconda.sh -b -p $HOME/miniconda
         echo ". $HOME/miniconda/etc/profile.d/conda.sh" >> ~/.bashrc
+        echo "conda activate chatbot" >> ~/.bashrc
         source ~/.bashrc
         conda config --set always_yes yes --set changeps1 no
         conda update -q conda
-        conda env create --file environment.yml
-
+        conda init bash
+        conda create -q -n chatbot python=$python-version
+        conda activate chatbot
+        conda install -q pandas gspread oauth2client
     - name: Run Python script
       run: |
         conda activate chatbot
         python StockTracker.py
+      shell: bash
