@@ -1,20 +1,28 @@
-name: Run Python script
-
-on:
-  push:
-    branches: [ main ]
+name: chatbot
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip
+  - pandas
+  - gspread
+  - oauth2client
 
 jobs:
-  run-script:
+  build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Setup Python environment
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: 3.9
     - name: Install dependencies
       run: |
-        pip install -r requirements.txt
-    - name: Run Python script
+        conda env create -n chatbot
+        conda activate chatbot
+        conda env update -n chatbot --file environment.yml
+    - name: Run StockTracker.py
       run: python StockTracker.py
+
