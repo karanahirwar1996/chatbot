@@ -26,9 +26,9 @@ jobs:
         conda env update -n chatbot --file environment.yml
         conda activate chatbot
 
-    - name: Install dependencies
+    - name: Install missing packages
       run: |
-        conda install -c conda-forge pandas
+        conda install pandas
 
     - name: Run Python script
       run: |
